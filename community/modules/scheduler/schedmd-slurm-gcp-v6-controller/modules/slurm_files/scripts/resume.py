@@ -105,7 +105,6 @@ def instance_properties(nodeset: NSDict, model:str, placement_group:Optional[str
         props.resourcePolicies = [placement_group]
 
     if reservation := lookup().nodeset_reservation(nodeset):
-
         update_reservation_props(reservation, props, placement_group, reservation.calendar)
 
     if (fr := lookup().future_reservation(nodeset)) and fr.specific:
@@ -296,7 +295,7 @@ def resume_nodes(nodes: List[str], resume_data: Optional[ResumeData]):
     """resume nodes in nodelist"""
     lkp = lookup()
     # Prevent dormant nodes associated with a future reservation from being resumed
-    nodes, dormant_fr_nodes = util.separate(lkp.is_dormant_fr_node, nodes)
+    nodes, dormant_fr_nodes = util.separate(lkp.is_dormant_res_node, nodes)
     
     if dormant_fr_nodes:
         log.warning(f"Resume was unable to resume future reservation nodes={dormant_fr_nodes}")
